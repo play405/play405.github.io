@@ -3,9 +3,8 @@
 import GameBoy from '@/components/game-boy';
 import InfiniteSlider from '@/components/infinite-slider';
 import { designers } from '@/lib/designer';
-import { Container, Grid } from '@/lib/style';
+import { Container, FullScreen, Grid } from '@/lib/style';
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -16,7 +15,7 @@ const Wrapper = styled.div`
   align-items: center;
   position: relative;
 
-  @media (max-width: 1419px) {
+  @media (max-width: 1420px) {
     width: 100%;
   }
 
@@ -87,7 +86,7 @@ const PostWrapper = styled.div`
   width: 100%;
   color: #dadada;
 
-  & img {
+  img {
     width: 100%;
   }
 `;
@@ -124,33 +123,23 @@ const DesignerDescription = styled.div`
   white-space: pre-wrap;
 `;
 
-const Loading = styled(motion.div)`
-  width: 100dvw;
-  height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background-color: #161616;
-`;
-
 interface WorkProps {
   id: number;
   children: React.ReactNode;
 }
 
 export default function WorkLayout({ id, children }: WorkProps) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const designer = designers[id];
 
   console.log(loading);
 
   return (
     <Container>
-      <Loading animate={{ opacity: loading ? 1 : 0 }} transition={{ delay: 1 }}>
+      <FullScreen
+        animate={{ opacity: loading ? 1 : 0 }}
+        transition={{ delay: 1 }}
+      >
         <Wrapper>
           <InfiniteSlider color={designer.cartridge.color} />
           <GameBoy
@@ -159,7 +148,7 @@ export default function WorkLayout({ id, children }: WorkProps) {
             exit={{ x: 750 }}
           />
         </Wrapper>
-      </Loading>
+      </FullScreen>
       <Grid>
         <Left>
           <Sidebar>

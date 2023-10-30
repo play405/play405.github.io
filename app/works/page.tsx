@@ -5,24 +5,12 @@ import CartridgeList from '@/components/cartridge-list';
 import GameBoy from '@/components/game-boy';
 import PutIn from '@/components/put-in';
 import ViewType from '@/components/view-type';
+import { Container, FullScreen, Grid } from '@/lib/style';
 import useSize from '@/lib/useSize';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-const Container = styled.div`
-  width: 100%;
-  min-height: 100dvh;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  padding-top: 96px;
-`;
 
 const Wrapper = styled(motion.div)`
   width: 1420px;
@@ -84,7 +72,17 @@ const CartridgesList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 80px 720px 80px 0;
+  grid-column: 3/8;
+`;
+
+const GameBoyWrapper = styled.div`
+  height: calc(100dvh - 200px);
+  grid-column: 8/13;
+  position: sticky;
+  top: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default function Works() {
@@ -105,21 +103,19 @@ export default function Works() {
   return (
     <Container>
       {isList ? (
-        <>
-          <Fixed>
-            <ViewType isList={isList} setIsList={setIsList} />
-            <GameBoy initial={{ width: 512, height: 720 }} />
-          </Fixed>
-          <Wrapper>
-            <CartridgesList>
-              {[...Array(12)].map((_, i) => (
-                <CartridgeList key={i} id={i + 1} />
-              ))}
-            </CartridgesList>
-          </Wrapper>
-        </>
+        <Grid>
+          <ViewType isList={isList} setIsList={setIsList} />
+          <CartridgesList>
+            {[...Array(12)].map((_, i) => (
+              <CartridgeList key={i} id={i + 1} />
+            ))}
+          </CartridgesList>
+          <GameBoyWrapper>
+            <GameBoy initial={{ width: '100%', height: '100%' }} />
+          </GameBoyWrapper>
+        </Grid>
       ) : (
-        <>
+        <FullScreen>
           <ResponsiveWrapper initial={{ x: 250 }}>
             <PutIn />
             <GameBoy initial={{ rotate: -90 }} exit={{ x: 750 }} />
@@ -146,7 +142,7 @@ export default function Works() {
               <GameBoy initial={{ rotate: -90 }} exit={{ x: 750 }} />
             </Trigger>
           </ResponsiveWrapper>
-        </>
+        </FullScreen>
       )}
     </Container>
   );

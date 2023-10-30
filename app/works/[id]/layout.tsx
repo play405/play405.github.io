@@ -1,10 +1,16 @@
-import type { Metadata } from 'next';
+import { designers } from '@/lib/designer';
 
-// TODO: Add metadata for this layout.
+interface Props {
+  params: {
+    id: string;
+  };
+}
 
-export const metadata: Metadata = {
-  title: 'Work',
-};
+export function generateMetadata({ params: { id } }: Props) {
+  const designer = designers[Number(id) - 1];
+
+  return { title: `${designer.cartridge.title} | STUDIO 405` };
+}
 
 export default function WorkLayout({
   children,

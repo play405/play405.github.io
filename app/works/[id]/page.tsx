@@ -17,7 +17,9 @@ export async function generateStaticParams() {
 }
 
 export default function Work({ params: { id } }: WorkProps) {
-  const Post = dynamic(() => import(`@/posts/${id}.mdx`));
+  const Post = dynamic(() => import(`@/posts/${id}.mdx`), {
+    ssr: false,
+  });
 
   return (
     <WorkLayout id={Number(id) - 1}>
