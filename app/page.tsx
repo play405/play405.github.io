@@ -63,7 +63,7 @@ const StartButton = styled.div`
   line-height: 1;
   font-weight: bold;
 
-  &:hover {
+  :hover {
     color: #ffffff;
     box-shadow: inset 0px 0px 0px 2px #ffffff;
   }

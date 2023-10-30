@@ -14,20 +14,20 @@ import { useEffect, useState } from 'react';
 
 const Wrapper = styled(motion.div)<{ width: number; height: number }>`
   position: absolute;
-  top: 0;
-  left: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
-  color: #333333;
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
   cursor: grab;
 
-  &:active {
+  :active {
     cursor: grabbing;
+  }
+
+  img {
+    filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.25));
+    will-change: transform;
   }
 `;
 

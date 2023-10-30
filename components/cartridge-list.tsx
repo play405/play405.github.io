@@ -2,15 +2,13 @@
 
 import { designers } from '@/lib/designer';
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Wrapper = styled(Link)`
+const Wrapper = styled(motion.div)`
   display: flex;
-  width: 460px;
   gap: 40px;
-  pointer-events: fill;
 `;
 
 const Cartridge = styled(motion.div)`
@@ -56,27 +54,40 @@ interface CartridgeListProps {
   id: number;
 }
 
+const variants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 export default function CartridgeList({ id }: CartridgeListProps) {
   const designer = designers[id - 1];
 
   return (
-    <Wrapper href={`/works/${id}`}>
-      <Cartridge>
-        <Image
-          src={`/images/cartridges/${id}.png`}
-          width={225}
-          height={225}
-          alt="Cartridge"
-          draggable={false}
-        />
-      </Cartridge>
-      <Text>
-        <Name>
-          <Korean>{designer.name}</Korean>
-          <English>{designer.engName}</English>
-        </Name>
-        <Category>{designer.cartridge.category}</Category>
-      </Text>
-    </Wrapper>
+    <Link href={`/works/${id}`}>
+      <Wrapper variants={variants}>
+        <Cartridge>
+          <Image
+            src={`/images/cartridges/${id}.png`}
+            width={225}
+            height={225}
+            alt="Cartridge"
+            draggable={false}
+          />
+        </Cartridge>
+        <Text>
+          <Name>
+            <Korean>{designer.name}</Korean>
+            <English>{designer.engName}</English>
+          </Name>
+          <Category>{designer.cartridge.category}</Category>
+        </Text>
+      </Wrapper>
+    </Link>
   );
 }

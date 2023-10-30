@@ -11,7 +11,7 @@ const Wrapper = styled(Link)<{ selected: boolean }>`
   padding: 16px;
   font-size: 1.25rem; // 20px
 
-  &:hover {
+  :hover {
     color: #ffffff;
     box-shadow: inset 0px 0px 0px 2px #ffffff;
   }

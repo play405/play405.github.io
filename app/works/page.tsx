@@ -5,10 +5,11 @@ import CartridgeList from '@/components/cartridge-list';
 import GameBoy from '@/components/game-boy';
 import PutIn from '@/components/put-in';
 import ViewType from '@/components/view-type';
+import { designers } from '@/lib/designer';
 import { Container, FullScreen, Grid } from '@/lib/style';
 import useSize from '@/lib/useSize';
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { Variants, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -68,7 +69,7 @@ const Fixed = styled(Cartridges)`
   }
 `;
 
-const CartridgesList = styled.div`
+const CartridgesList = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -84,6 +85,18 @@ const GameBoyWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+const listVariants: Variants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
 
 export default function Works() {
   const router = useRouter();
@@ -105,8 +118,13 @@ export default function Works() {
       {isList ? (
         <Grid>
           <ViewType isList={isList} setIsList={setIsList} />
-          <CartridgesList>
-            {[...Array(12)].map((_, i) => (
+          <CartridgesList
+            variants={listVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+            {designers.map((_, i) => (
               <CartridgeList key={i} id={i + 1} />
             ))}
           </CartridgesList>
