@@ -133,7 +133,7 @@ export const designers: Designer[] = [
   },
   {
     name: '김플잎',
-    engName: 'Kim',
+    engName: 'Kim Peulyip',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
     cartridge: {
       title: 'EGO 42;조선',

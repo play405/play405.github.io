@@ -137,13 +137,14 @@ export default function WorkLayout({ id, children }: WorkProps) {
   return (
     <Container>
       <FullScreen
+        initial={{ backgroundColor: '#161616' }}
         animate={{ opacity: loading ? 1 : 0 }}
         transition={{ delay: 1 }}
       >
         <Wrapper>
           <InfiniteSlider color={designer.cartridge.color} />
           <GameBoy
-            initial={{ opacity: 0, rotate: 90, x: 250 }}
+            initial={{ opacity: 0, rotate: 90, x: 256 }}
             animate={{ opacity: 1 }}
             exit={{ x: 750 }}
           />

@@ -13,12 +13,12 @@ const Wrapper = styled(motion.div)`
   padding: 20px 16px 16px 16px;
   border-radius: 8px;
   background-color: #141414;
-  pointer-events: all;
   user-select: none;
   color: #ffffff;
   grid-column: 1/3;
   position: fixed;
   bottom: 40px;
+  z-index: 10;
 `;
 
 const Buttons = styled.div`

@@ -3,14 +3,17 @@
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 
+const size = 40;
+
 const Wrapper = styled(motion.div)`
-  width: 24px;
-  height: 32px;
-  background-color: ${({ color }) => color};
-  border-radius: 4px;
+  width: ${size}px;
+  height: ${size}px;
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Cartridge = styled(motion.div)`
@@ -44,8 +47,8 @@ export default function MiniCartridge({
   return (
     <Wrapper
       initial={{
-        x: Math.random() * parentWidth,
-        y: -32,
+        x: Math.random() * (parentWidth - size),
+        y: -size,
       }}
       animate={{ y: parentHeight }}
       transition={{
@@ -55,7 +58,8 @@ export default function MiniCartridge({
       }}
       onAnimationComplete={() => onAnimationComplete(index)}
       onHoverStart={() => onHoverStart(index)}
-      color={color}
-    />
+    >
+      <Cartridge color={color} />
+    </Wrapper>
   );
 }

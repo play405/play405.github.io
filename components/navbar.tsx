@@ -8,6 +8,7 @@ import NavItem from './nav-item';
 
 const Wrapper = styled.nav`
   width: 100%;
+  height: 120px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
