@@ -13,11 +13,12 @@ import { Variants, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const Trigger = styled(motion.div)`
+const Trigger = styled(motion.div)<{ grabbed?: boolean }>`
   position: fixed;
   width: 400px;
   height: 512px;
   z-index: 10;
+  cursor: ${({ grabbed }) => (grabbed ? 'e-resize' : 'default')};
 `;
 
 const Cartridges = styled(motion.div)`
@@ -103,6 +104,7 @@ export default function Works() {
               onMouseUp={handleMouseUp}
               onMouseEnter={() => setFixed(true)}
               onMouseLeave={() => setFixed(false)}
+              grabbed={dragged !== 0}
             />
 
             <PutIn initial={{ opacity: 1, x: 256 }} />
