@@ -45,6 +45,7 @@ export const Wrapper = styled(motion.div)`
   justify-content: flex-end;
   align-items: center;
   position: relative;
+  gap: 40px;
 
   @media (min-width: 1920px) {
     width: calc(100dvw - 512px);

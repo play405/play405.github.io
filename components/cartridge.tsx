@@ -31,18 +31,11 @@ const Wrapper = styled(motion.div)<{ width: number; height: number }>`
   }
 `;
 
-interface CartridgeProps extends MotionProps {
-  parentWidth: number;
-  parentHeight: number;
-  id: number;
-  setDragged: (id: number) => void;
-}
-
 const width = 220;
 const height = 252;
 
 const offsetX = 0;
-const offsetY = 96;
+const offsetY = 120;
 
 const variants: Variants = {
   hidden: {
@@ -55,12 +48,21 @@ const variants: Variants = {
   },
 };
 
+interface CartridgeProps extends MotionProps {
+  parentWidth: number;
+  parentHeight: number;
+  id: number;
+  setDragged: (id: number) => void;
+  fixed?: boolean;
+}
+
 export default function Cartridge({
   dragConstraints,
   parentWidth,
   parentHeight,
   id,
   setDragged,
+  fixed,
 }: CartridgeProps) {
   const [loaded, setLoaded] = useState(false);
 
@@ -114,49 +116,47 @@ export default function Cartridge({
     { movementX, movementY }: MouseEvent,
     { point }: TapInfo
   ) => {
-    const vectorA = {
-      x: (0.5 - originX.get()) * width,
-      y: (0.5 - originY.get()) * height,
-    };
-
-    const mass = 0.5;
-    const velocity = Math.sqrt(movementX ** 2 + movementY ** 2) * mass;
-    const force =
-      ((0.5 - originX.get()) ** 2 + (0.5 - originY.get()) ** 2) * velocity;
-
-    // console.log(force);
-
-    const vectorB = {
-      x:
-        vectorA.x * Math.cos(rotate.get() * (Math.PI / 180)) -
-        vectorA.y * Math.sin(rotate.get() * (Math.PI / 180)),
-      y:
-        vectorA.x * Math.sin(rotate.get() * (Math.PI / 180)) +
-        vectorA.y * Math.cos(rotate.get() * (Math.PI / 180)),
-    };
-
-    const vectorC = {
-      x: vectorB.x - movementX,
-      y: vectorB.y - movementY,
-    };
-
-    let angle =
-      (Math.atan2(vectorC.y, vectorC.x) - Math.atan2(vectorB.y, vectorB.x)) *
-      (180 / Math.PI) *
-      force;
-
-    // Fix delta angle to be between -180 and 180
-    if (angle > 180 * force) {
-      angle -= 360 * force;
-    } else if (angle < -180 * force) {
-      angle += 360 * force;
-    }
-
-    // if point is on right side of screen
-    if (point.x > window.innerWidth * 0.75) {
+    // If fixed, rotate by -90 degrees
+    if (fixed) {
       const laps = Math.round((rotate.get() + 90) / 360);
       rotate.set(-90 + 360 * laps);
     } else {
+      const vectorA = {
+        x: (0.5 - originX.get()) * width,
+        y: (0.5 - originY.get()) * height,
+      };
+
+      const mass = 0.5;
+      const velocity = Math.sqrt(movementX ** 2 + movementY ** 2) * mass;
+      const force =
+        ((0.5 - originX.get()) ** 2 + (0.5 - originY.get()) ** 2) * velocity;
+
+      const vectorB = {
+        x:
+          vectorA.x * Math.cos(rotate.get() * (Math.PI / 180)) -
+          vectorA.y * Math.sin(rotate.get() * (Math.PI / 180)),
+        y:
+          vectorA.x * Math.sin(rotate.get() * (Math.PI / 180)) +
+          vectorA.y * Math.cos(rotate.get() * (Math.PI / 180)),
+      };
+
+      const vectorC = {
+        x: vectorB.x - movementX,
+        y: vectorB.y - movementY,
+      };
+
+      let angle =
+        (Math.atan2(vectorC.y, vectorC.x) - Math.atan2(vectorB.y, vectorB.x)) *
+        (180 / Math.PI) *
+        force;
+
+      // Fix delta angle to be between -180 and 180
+      if (angle > 180 * force) {
+        angle -= 360 * force;
+      } else if (angle < -180 * force) {
+        angle += 360 * force;
+      }
+
       rotate.set(rotate.get() + angle);
     }
   };
@@ -168,9 +168,10 @@ export default function Cartridge({
       height={height}
       drag
       dragConstraints={dragConstraints}
+      dragElastic={1}
       onDrag={handleDrag}
       onDragStart={() => setDragged(id)}
-      onDragEnd={() => setDragged(-1)}
+      onDragEnd={() => setDragged(0)}
       style={{ originX, originY, x, y, rotate }}
       onTapStart={handleTapStart}
       initial="hidden"

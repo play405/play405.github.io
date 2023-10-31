@@ -96,7 +96,7 @@ export default function Home() {
         <GameBoy
           initial={{ opacity: 0, rotate: 90, x: 256 }}
           animate={{ opacity: 1 }}
-          exit={{ x: 750 }}
+          exit={{ x: 768 }}
         />
       </Wrapper>
 

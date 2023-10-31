@@ -6,67 +6,26 @@ import GameBoy from '@/components/game-boy';
 import PutIn from '@/components/put-in';
 import ViewType from '@/components/view-type';
 import { designers } from '@/lib/designer';
-import { Container, FullScreen, Grid } from '@/lib/style';
+import { Container, FullScreen, Grid, Wrapper } from '@/lib/style';
 import useSize from '@/lib/useSize';
 import styled from '@emotion/styled';
 import { Variants, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const Wrapper = styled(motion.div)`
-  width: 1420px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 40px;
-  position: relative;
-  user-select: none;
-  pointer-events: none;
-
-  @media (max-width: 1419px) {
-    width: calc(100% - 40px);
-  }
-`;
-
-const ResponsiveWrapper = styled(Wrapper)`
-  @media (min-width: 1920px) {
-    width: calc(100% - 500px);
-  }
-`;
-
 const Trigger = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  padding-left: 40px;
-  pointer-events: fill;
+  position: fixed;
+  width: 400px;
+  height: 512px;
+  z-index: 10;
 `;
 
 const Cartridges = styled(motion.div)`
   width: 100dvw;
-  height: calc(100dvh - 96px);
+  height: calc(100dvh - 120px);
   position: fixed;
   left: 0;
-  top: 96px;
-`;
-
-const Fixed = styled(Cartridges)`
-  width: 1420px;
-  height: calc(100% - 96px);
-  position: fixed;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  margin-top: 96px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none;
-
-  @media (max-width: 1419px) {
-    width: calc(100% - 40px);
-  }
+  top: 120px;
 `;
 
 const CartridgesList = styled(motion.div)`
@@ -100,7 +59,8 @@ const listVariants: Variants = {
 
 export default function Works() {
   const router = useRouter();
-  const [dragged, setDragged] = useState<number>(-1);
+  const [dragged, setDragged] = useState(0);
+  const [fixed, setFixed] = useState(false);
   const [isList, setIsList] = useState(false);
   const {
     size: { width, height },
@@ -108,13 +68,13 @@ export default function Works() {
   } = useSize();
 
   const handleMouseUp = () => {
-    if (dragged !== -1) {
+    if (dragged) {
       router.push(`/works/${dragged}`);
     }
   };
 
   return (
-    <Container>
+    <Container initial={{ gap: 0 }}>
       {isList ? (
         <Grid>
           <ViewType isList={isList} setIsList={setIsList} />
@@ -133,34 +93,45 @@ export default function Works() {
           </GameBoyWrapper>
         </Grid>
       ) : (
-        <FullScreen>
-          <ResponsiveWrapper initial={{ x: 250 }}>
-            <PutIn />
-            <GameBoy initial={{ rotate: -90 }} exit={{ x: 750 }} />
-          </ResponsiveWrapper>
-          <Cartridges ref={cartridges}>
-            {[...Array(12)].map((_, i) => (
-              <Cartridge
-                key={i}
-                dragConstraints={cartridges}
-                parentWidth={width}
-                parentHeight={height}
-                id={i + 1}
-                setDragged={setDragged}
-              />
-            ))}
-          </Cartridges>
-          <Fixed>
+        <>
+          <Grid>
             <ViewType isList={isList} setIsList={setIsList} />
-          </Fixed>
+          </Grid>
 
-          <ResponsiveWrapper initial={{ x: 230, position: 'absolute' }}>
-            <Trigger onMouseUp={handleMouseUp}>
-              <PutIn initial={{ opacity: 0 }} />
-              <GameBoy initial={{ rotate: -90 }} exit={{ x: 750 }} />
-            </Trigger>
-          </ResponsiveWrapper>
-        </FullScreen>
+          <Wrapper>
+            <Trigger
+              onMouseUp={handleMouseUp}
+              onMouseEnter={() => setFixed(true)}
+              onMouseLeave={() => setFixed(false)}
+            />
+
+            <PutIn initial={{ opacity: 1, x: 256 }} />
+            <GameBoy
+              initial={{
+                rotate: -90,
+                zIndex: 10,
+                x: 256,
+              }}
+              exit={{ x: 1024 }}
+            />
+          </Wrapper>
+
+          <FullScreen>
+            <Cartridges ref={cartridges}>
+              {designers.map((_, i) => (
+                <Cartridge
+                  key={i}
+                  dragConstraints={cartridges}
+                  parentWidth={width}
+                  parentHeight={height}
+                  id={i + 1}
+                  setDragged={setDragged}
+                  fixed={dragged === i + 1 && fixed}
+                />
+              ))}
+            </Cartridges>
+          </FullScreen>
+        </>
       )}
     </Container>
   );

@@ -12,6 +12,7 @@ const Wrapper = styled(motion.div)`
   align-items: center;
   border-radius: 100%;
   background-color: #24252c;
+  user-select: none;
 `;
 
 const Inner = styled(motion.div)`
