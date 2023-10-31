@@ -15,10 +15,6 @@ const Wrapper = styled(motion.div)`
   background-color: #141414;
   user-select: none;
   color: #ffffff;
-  grid-column: 1/3;
-  position: fixed;
-  bottom: 40px;
-  z-index: 10;
 `;
 
 const Buttons = styled.div`

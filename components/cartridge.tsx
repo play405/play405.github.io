@@ -46,6 +46,16 @@ const variants: Variants = {
     opacity: 1,
     scale: 1,
   },
+  insert: {
+    opacity: [1, 0],
+    originX: 0.5,
+    originY: 0.5,
+    x: '100dvw',
+    y: `calc((100dvh - 120px - ${height}px) / 2)`,
+    transition: {
+      duration: 1,
+    },
+  },
 };
 
 interface CartridgeProps extends MotionProps {
@@ -68,6 +78,7 @@ export default function Cartridge({
 
   const originX = useMotionValue(0.5);
   const originY = useMotionValue(0.5);
+  const zIndex = useMotionValue(0);
 
   const x = useMotionValue(-1000);
   const y = useMotionValue(-1000);
@@ -78,9 +89,10 @@ export default function Cartridge({
     if (parentWidth && parentHeight) {
       x.set(Math.random() * (parentWidth * 0.65 - width) + parentWidth * 0.1);
       y.set(Math.random() * (parentHeight * 1 - height) + parentHeight * 0);
+      zIndex.set(Math.random() * 100);
       rotate.set(Math.random() * 360, false);
     }
-  }, [parentHeight, parentWidth, rotate, x, y]);
+  }, [parentHeight, parentWidth, rotate, x, y, zIndex]);
 
   const handleTapStart = (_: MouseEvent, { point }: TapInfo) => {
     const pointX = point.x - offsetX;
@@ -171,13 +183,12 @@ export default function Cartridge({
       dragElastic={1}
       onDrag={handleDrag}
       onDragStart={() => setDragged(id)}
-      onDragEnd={() => setDragged(0)}
-      style={{ originX, originY, x, y, rotate }}
+      onDragEnd={() => fixed || setDragged(0)}
+      style={{ originX, originY, x, y, zIndex, rotate }}
       onTapStart={handleTapStart}
       initial="hidden"
       animate={loaded ? 'visible' : 'hidden'}
-      exit="hidden"
-      layoutId={`cartridge-${id}`}
+      exit={fixed ? 'insert' : 'hidden'}
     >
       <Image
         src={`/images/cartridges/${id}.png`}

@@ -13,10 +13,12 @@ import { Variants, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import Shuffle from '@/assets/shuffle.svg';
+
 const Trigger = styled(motion.div)<{ grabbed?: boolean }>`
   position: fixed;
   width: 400px;
-  height: 512px;
+  height: 256px;
   z-index: 10;
   cursor: ${({ grabbed }) => (grabbed ? 'e-resize' : 'default')};
 `;
@@ -46,6 +48,22 @@ const GameBoyWrapper = styled.div`
   align-items: center;
 `;
 
+const Buttons = styled(motion.div)`
+  grid-column: 1/3;
+  position: fixed;
+  bottom: 40px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`;
+
+const ShuffleButton = styled(Shuffle)`
+  cursor: pointer;
+`;
+
 const listVariants: Variants = {
   hidden: {
     opacity: 0,
@@ -58,11 +76,29 @@ const listVariants: Variants = {
   },
 };
 
+const gameBoyVariants: Variants = {
+  initial: {
+    rotate: -90,
+    zIndex: 10,
+    x: 256,
+  },
+  exit: {
+    x: 1024,
+  },
+  grabbed: {
+    x: 1024,
+    transition: {
+      delay: 1,
+    },
+  },
+};
+
 export default function Works() {
   const router = useRouter();
   const [dragged, setDragged] = useState(0);
   const [fixed, setFixed] = useState(false);
   const [isList, setIsList] = useState(false);
+  const [shuffle, setShuffle] = useState(false);
   const {
     size: { width, height },
     ref: cartridges,
@@ -78,7 +114,9 @@ export default function Works() {
     <Container initial={{ gap: 0 }}>
       {isList ? (
         <Grid>
-          <ViewType isList={isList} setIsList={setIsList} />
+          <Buttons>
+            <ViewType isList={isList} setIsList={setIsList} />
+          </Buttons>
           <CartridgesList
             variants={listVariants}
             initial="hidden"
@@ -96,7 +134,10 @@ export default function Works() {
       ) : (
         <>
           <Grid>
-            <ViewType isList={isList} setIsList={setIsList} />
+            <Buttons>
+              <ShuffleButton onClick={() => setShuffle(!shuffle)} />
+              <ViewType isList={isList} setIsList={setIsList} />
+            </Buttons>
           </Grid>
 
           <Wrapper>
@@ -109,12 +150,9 @@ export default function Works() {
 
             <PutIn initial={{ opacity: 1, x: 256 }} />
             <GameBoy
-              initial={{
-                rotate: -90,
-                zIndex: 10,
-                x: 256,
-              }}
-              exit={{ x: 1024 }}
+              variants={gameBoyVariants}
+              initial="initial"
+              exit={dragged ? 'grabbed' : 'exit'}
             />
           </Wrapper>
 
@@ -122,7 +160,7 @@ export default function Works() {
             <Cartridges ref={cartridges}>
               {designers.map((_, i) => (
                 <Cartridge
-                  key={i}
+                  key={`cartridge-${i + 1} shuffle-${shuffle}`}
                   dragConstraints={cartridges}
                   parentWidth={width}
                   parentHeight={height}
