@@ -3,26 +3,10 @@
 import GameBoy from '@/components/game-boy';
 import InfiniteSlider from '@/components/infinite-slider';
 import { designers } from '@/lib/designer';
-import { Container, FullScreen, Grid } from '@/lib/style';
+import { Container, FullScreen, Grid, Wrapper } from '@/lib/style';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useState } from 'react';
-
-const Wrapper = styled.div`
-  width: 1420px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-
-  @media (max-width: 1420px) {
-    width: 100%;
-  }
-
-  @media (min-width: 1920px) {
-    width: calc(100% - 500px);
-  }
-`;
+import { useEffect, useRef, useState } from 'react';
 
 const Left = styled.div`
   display: flex;
@@ -129,10 +113,18 @@ interface WorkProps {
 }
 
 export default function WorkLayout({ id, children }: WorkProps) {
-  const [loading, setLoading] = useState(false);
+  const postWrapperRef = useRef<HTMLDivElement>(null);
+  const images = postWrapperRef.current?.querySelectorAll('img').length;
   const designer = designers[id];
+  const [loading, setLoading] = useState(true);
+  const [counter, setCounter] = useState(0);
 
-  console.log(loading);
+  // Loading
+  useEffect(() => {
+    if (images && counter === images) {
+      setLoading(false);
+    }
+  }, [counter, images]);
 
   return (
     <Container>
@@ -141,7 +133,7 @@ export default function WorkLayout({ id, children }: WorkProps) {
         animate={{ opacity: loading ? 1 : 0 }}
         transition={{ delay: 1 }}
       >
-        <Wrapper>
+        <Wrapper initial={{ y: 60 }}>
           <InfiniteSlider color={designer.cartridge.color} />
           <GameBoy
             initial={{ opacity: 0, rotate: 90, x: 256 }}
@@ -164,7 +156,14 @@ export default function WorkLayout({ id, children }: WorkProps) {
           </Sidebar>
         </Left>
         <Right>
-          <PostWrapper>{children}</PostWrapper>
+          <PostWrapper
+            ref={postWrapperRef}
+            onLoad={() => {
+              setCounter(prev => prev + 1);
+            }}
+          >
+            {children}
+          </PostWrapper>
 
           <Designer>
             <Title>Designer</Title>
