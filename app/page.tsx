@@ -11,6 +11,9 @@ import { Variants, motion, useMotionValue } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import CartridgeBox from '@/assets/cartridge-box.svg';
+import IconStart from '@/assets/icon-start.svg';
+
 const Cursor = styled(motion.div)`
   position: absolute;
   top: -40px;
@@ -107,18 +110,7 @@ export default function Home() {
           onMouseLeave={() => setHovered(true)}
         >
           START
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M28.8 16.0001L7.20005 28.4709L7.20005 3.52933L28.8 16.0001Z"
-              fill="white"
-            />
-          </svg>
+          <IconStart />
         </StartButton>
       </Wrapper>
 
@@ -128,46 +120,7 @@ export default function Home() {
           variants={cursorVariants}
           animate={hovered ? 'visible' : 'hidden'}
         >
-          <svg
-            width="80"
-            height="80"
-            viewBox="0 0 80 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.87793 25.0668L40.0946 4.87793L75.1218 25.0668L40.0037 45.6953L4.87793 25.0668Z"
-              fill="#161616"
-              stroke="white"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M4.87793 24.9926L40.0946 4.87793L75.1218 24.9926L40.0037 45.5455L4.87793 24.9926Z"
-              fill="#161616"
-              stroke="white"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M4.87793 25.2114V54.5893L39.9999 75.1216V46.0142L4.87793 25.2114Z"
-              fill="white"
-              stroke="white"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M75.122 25.2114V54.5893L40 75.1216V46.0142L75.122 25.2114Z"
-              fill="white"
-              stroke="white"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <CartridgeBox />
         </Cursor>
 
         {width > 0 &&

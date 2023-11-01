@@ -2,7 +2,8 @@
 
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import Play405 from './play405';
+
+import SliderLogo from '@/assets/slider-logo.svg';
 
 const Wrapper = styled(motion.div)`
   position: absolute;
@@ -30,7 +31,7 @@ export default function InfiniteSlider({ color }: InfiniteSliderProps) {
       exit={{ opacity: 0 }}
     >
       {[...Array(10)].map((_, i) => (
-        <Play405 key={i} />
+        <SliderLogo key={i} />
       ))}
     </Wrapper>
   );
