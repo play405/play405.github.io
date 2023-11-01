@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { MotionProps, motion } from 'framer-motion';
 
 const Wrapper = styled(motion.div)`
   display: flex;
@@ -32,14 +32,14 @@ const Button = styled.div<{ selected: boolean }>`
   cursor: pointer;
 `;
 
-interface ViewTypeProps {
+interface ViewTypeProps extends MotionProps {
   isList: boolean;
   setIsList: (isList: boolean) => void;
 }
 
 export default function ViewType({ isList, setIsList }: ViewTypeProps) {
   return (
-    <Wrapper>
+    <Wrapper exit={{ opacity: 0 }}>
       view type
       <Buttons>
         <Button selected={!isList} onClick={() => setIsList(false)}>

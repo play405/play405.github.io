@@ -12,6 +12,9 @@ import {
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+const width = 220;
+const height = 252;
+
 const Wrapper = styled(motion.div)<{ width: number; height: number }>`
   position: absolute;
   display: flex;
@@ -30,12 +33,6 @@ const Wrapper = styled(motion.div)<{ width: number; height: number }>`
     will-change: transform;
   }
 `;
-
-const width = 220;
-const height = 252;
-
-const offsetX = 0;
-const offsetY = 120;
 
 const variants: Variants = {
   hidden: {
@@ -59,8 +56,7 @@ const variants: Variants = {
 };
 
 interface CartridgeProps extends MotionProps {
-  parentWidth: number;
-  parentHeight: number;
+  parentPosition: { width: number; height: number; top: number; left: number };
   id: number;
   setDragged: (id: number) => void;
   fixed?: boolean;
@@ -68,8 +64,12 @@ interface CartridgeProps extends MotionProps {
 
 export default function Cartridge({
   dragConstraints,
-  parentWidth,
-  parentHeight,
+  parentPosition: {
+    width: parentWidth,
+    height: parentHeight,
+    top: parentTop,
+    left: parentLeft,
+  },
   id,
   setDragged,
   fixed,
@@ -95,8 +95,8 @@ export default function Cartridge({
   }, [parentHeight, parentWidth, rotate, x, y, zIndex]);
 
   const handleTapStart = (_: MouseEvent, { point }: TapInfo) => {
-    const pointX = point.x - offsetX;
-    const pointY = point.y - offsetY;
+    const pointX = point.x - parentLeft;
+    const pointY = point.y - parentTop;
 
     const vectorA = {
       x: pointX - x.get() - originX.get() * width,

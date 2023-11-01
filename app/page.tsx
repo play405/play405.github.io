@@ -5,7 +5,7 @@ import InfiniteSlider from '@/components/infinite-slider';
 import MiniCartridge from '@/components/mini-cartridge';
 import { designers } from '@/lib/designer';
 import { Container, FullScreen, Wrapper } from '@/lib/style';
-import useSize from '@/lib/useSize';
+import usePosition from '@/lib/usePosition';
 import styled from '@emotion/styled';
 import { Variants, motion, useMotionValue } from 'framer-motion';
 import Link from 'next/link';
@@ -61,9 +61,9 @@ export default function Home() {
   const [hovered, setHovered] = useState(false);
 
   const {
-    size: { width, height },
+    position: { width, height },
     ref: wrapper,
-  } = useSize();
+  } = usePosition();
 
   const handleAnimationComplete = (i: number) => {
     setCounts(prev => {

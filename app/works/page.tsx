@@ -7,7 +7,7 @@ import PutIn from '@/components/put-in';
 import ViewType from '@/components/view-type';
 import { designers } from '@/lib/designer';
 import { Container, FullScreen, Grid, Wrapper } from '@/lib/style';
-import useSize from '@/lib/useSize';
+import usePosition from '@/lib/usePosition';
 import styled from '@emotion/styled';
 import { Variants, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -60,7 +60,7 @@ const Buttons = styled(motion.div)`
   gap: 20px;
 `;
 
-const ShuffleButton = styled(Shuffle)`
+const ShuffleButton = styled(motion.div)`
   cursor: pointer;
 `;
 
@@ -99,10 +99,7 @@ export default function Works() {
   const [fixed, setFixed] = useState(false);
   const [isList, setIsList] = useState(false);
   const [shuffle, setShuffle] = useState(false);
-  const {
-    size: { width, height },
-    ref: cartridges,
-  } = useSize();
+  const { position, ref: cartridges } = usePosition();
 
   const handleMouseUp = () => {
     if (dragged) {
@@ -135,7 +132,16 @@ export default function Works() {
         <>
           <Grid>
             <Buttons>
-              <ShuffleButton onClick={() => setShuffle(!shuffle)} />
+              <ShuffleButton
+                onClick={() => setShuffle(!shuffle)}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Shuffle />
+              </ShuffleButton>
               <ViewType isList={isList} setIsList={setIsList} />
             </Buttons>
           </Grid>
@@ -148,7 +154,11 @@ export default function Works() {
               grabbed={dragged !== 0}
             />
 
-            <PutIn initial={{ opacity: 1, x: 256 }} />
+            <PutIn
+              initial={{ opacity: 0, x: 256 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
             <GameBoy
               variants={gameBoyVariants}
               initial="initial"
@@ -162,8 +172,7 @@ export default function Works() {
                 <Cartridge
                   key={`cartridge-${i + 1} shuffle-${shuffle}`}
                   dragConstraints={cartridges}
-                  parentWidth={width}
-                  parentHeight={height}
+                  parentPosition={position}
                   id={i + 1}
                   setDragged={setDragged}
                   fixed={dragged === i + 1 && fixed}
