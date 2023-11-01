@@ -52,6 +52,9 @@ const cursorVariants: Variants = {
     opacity: 1,
     scale: 1,
   },
+  static: {
+    opacity: 0.5,
+  },
 };
 
 export default function Home() {
@@ -61,7 +64,8 @@ export default function Home() {
   const y = useMotionValue(-100);
   const [counts, setCounts] = useState(cartridges.map(() => 0));
   const [color, setColor] = useState('#24252c');
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(true);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const {
     position: { width, height },
@@ -82,6 +86,15 @@ export default function Home() {
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    const id = setTimeout(() => {
+      setTimeoutId(null);
+    }, 250);
+    setTimeoutId(id);
+
     x.set(e.clientX);
     y.set(e.clientY);
   };
@@ -118,7 +131,7 @@ export default function Home() {
         <Cursor
           style={{ x, y }}
           variants={cursorVariants}
-          animate={hovered ? 'visible' : 'hidden'}
+          animate={hovered ? (timeoutId ? 'visible' : 'static') : 'hidden'}
         >
           <CartridgeBox />
         </Cursor>
