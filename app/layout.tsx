@@ -4,8 +4,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | STUDIO 405',
-    default: 'STUDIO 405',
+    template: '%s | Play! 405',
+    default: 'Play! 405',
   },
   description: '2023 한성대학교 제품서비스디자인트랙 졸업전시',
 };
