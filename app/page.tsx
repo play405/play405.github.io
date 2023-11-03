@@ -139,7 +139,7 @@ export default function Home() {
         {width > 0 &&
           cartridges.map((cartridge, i) => (
             <MiniCartridge
-              key={`${i}${counts[i]}`}
+              key={`${i}-${counts[i]}`}
               parentWidth={width}
               parentHeight={height}
               color={cartridge.color}

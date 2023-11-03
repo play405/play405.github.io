@@ -86,6 +86,10 @@ const Designer = styled.div`
 const DesignerInfo = styled.div`
   display: flex;
   gap: 30px;
+
+  img {
+    object-fit: cover;
+  }
 `;
 
 const DesignerText = styled.div`
@@ -169,10 +173,10 @@ export default function WorkLayout({ id, children }: WorkProps) {
             <Title>Designer</Title>
             <DesignerInfo>
               <Image
-                src="/images/profile.jpg"
+                src={`/images/profiles/${designer.id}.jpeg`}
                 width={220}
                 height={280}
-                alt="profile"
+                alt={designer.name}
               />
               <DesignerText>
                 <DesignerName>

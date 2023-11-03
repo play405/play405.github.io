@@ -120,8 +120,8 @@ export default function Works() {
             animate="visible"
             exit="hidden"
           >
-            {designers.map((_, i) => (
-              <CartridgeList key={i} id={i + 1} />
+            {designers.map(designer => (
+              <CartridgeList key={designer.id} id={designer.id} />
             ))}
           </CartridgesList>
           <GameBoyWrapper>

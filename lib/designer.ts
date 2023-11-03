@@ -1,4 +1,5 @@
 interface Designer {
+  id: number;
   name: string;
   engName: string;
   description: string;
@@ -12,6 +13,7 @@ interface Designer {
 
 export const designers: Designer[] = [
   {
+    id: 1,
     name: '임건',
     engName: 'Yim Gun',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -24,6 +26,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 2,
     name: '이윤미',
     engName: 'Lee Yunmi',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -36,6 +39,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 3,
     name: '이진희',
     engName: 'Lee Jinhee',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -48,6 +52,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 4,
     name: '김정재',
     engName: 'Kim Jeoungjae',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -60,6 +65,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 5,
     name: '구가영',
     engName: 'Koo Gayeong',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -72,6 +78,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 6,
     name: '김혜진',
     engName: 'Kim Hyejin',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -84,6 +91,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 7,
     name: '박주형',
     engName: 'Park Joohyung',
     description: 'johy@dabyeol.com',
@@ -96,6 +104,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 8,
     name: '이은아',
     engName: 'Lee Euna',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -108,6 +117,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 9,
     name: '윤솔비',
     engName: 'Yun Solbi',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -120,6 +130,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 10,
     name: '김지언',
     engName: 'Kim Jieon',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -132,6 +143,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 11,
     name: '김플잎',
     engName: 'Kim Peulyip',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
@@ -144,6 +156,7 @@ export const designers: Designer[] = [
     },
   },
   {
+    id: 12,
     name: '양영하',
     engName: 'Yang Youngha',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
