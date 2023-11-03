@@ -22,6 +22,7 @@ const Wrapper = styled(motion.div)<{ width: number; height: number }>`
   justify-content: center;
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
+  overflow: hidden;
   cursor: grab;
 
   :active {
