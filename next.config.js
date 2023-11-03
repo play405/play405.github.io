@@ -1,4 +1,5 @@
 const withMDX = require('@next/mdx')();
+const withExportImages = require('next-export-optimize-images');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -31,9 +32,6 @@ const nextConfig = {
   },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   output: 'export',
-  images: {
-    unoptimized: true,
-  },
 };
 
-module.exports = withMDX(nextConfig);
+module.exports = withMDX(withExportImages(nextConfig));

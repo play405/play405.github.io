@@ -2,7 +2,7 @@
 
 import styled from '@emotion/styled';
 import { AnimatePresence } from 'framer-motion';
-import { LayoutRouterContext } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { LayoutRouterContext } from 'next/dist/shared/lib/app-router-context';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, useContext, useRef } from 'react';
 import Navbar from './navbar';
