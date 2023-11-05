@@ -22,7 +22,6 @@ const Wrapper = styled(motion.div)<{ width: number; height: number }>`
   justify-content: center;
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
-  overflow: hidden;
   cursor: grab;
 
   :active {
@@ -30,8 +29,9 @@ const Wrapper = styled(motion.div)<{ width: number; height: number }>`
   }
 
   img {
-    filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.5));
     will-change: transform;
+    pointer-events: none;
   }
 `;
 
