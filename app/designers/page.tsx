@@ -57,6 +57,7 @@ export default function Designers() {
               width={200}
               height={246}
               alt={designer.name}
+              priority
             />
             <Name>
               <Korean>{designer.name}</Korean>

@@ -23,6 +23,7 @@ export const FullScreen = styled(motion.div)`
   width: 100dvw;
   height: 100dvh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: fixed;

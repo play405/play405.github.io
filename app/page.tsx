@@ -9,9 +9,10 @@ import usePosition from '@/lib/usePosition';
 import styled from '@emotion/styled';
 import { Variants, motion, useMotionValue } from 'framer-motion';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CartridgeBox from '@/assets/cartridge-box.svg';
+import CursorStart from '@/assets/cursor-start.svg';
 import IconStart from '@/assets/icon-start.svg';
 
 const Cursor = styled(motion.div)`
@@ -43,6 +44,29 @@ const StartButton = styled(Link)`
   }
 `;
 
+const PressStartWrapper = styled(Wrapper)`
+  justify-content: center;
+  font-size: 32px;
+  padding: 16px;
+  line-height: 1;
+  font-weight: bold;
+  color: #24252c;
+`;
+
+const pressStartVariants: Variants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      repeat: Infinity,
+      repeatType: 'mirror',
+      duration: 1,
+    },
+  },
+};
+
 const cursorVariants: Variants = {
   hidden: {
     opacity: 0,
@@ -57,14 +81,48 @@ const cursorVariants: Variants = {
   },
 };
 
+const backgroundVariants: Variants = {
+  initial: {
+    zIndex: 0,
+    backgroundColor: '#ffffff',
+  },
+  animate: {
+    opacity: 0,
+  },
+};
+
 export default function Home() {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const [audio, setAudio] = useState<HTMLAudioElement>();
+
+  useEffect(() => {
+    const audio = new Audio(
+      'https://vgmsite.com/soundtracks/pokemon-gold-gb/pjpcaior/48_Bicycle.mp3'
+    );
+    audio.volume = 0.2;
+    audio.loop = true;
+
+    setAudio(audio);
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      audio?.play();
+    }
+
+    return () => {
+      audio?.pause();
+    };
+  }, [audio, isPlaying]);
+
   const cartridges = designers.map(designer => designer.cartridge);
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
   const [counts, setCounts] = useState(cartridges.map(() => 0));
   const [color, setColor] = useState('#24252c');
-  const [hovered, setHovered] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const {
@@ -81,8 +139,10 @@ export default function Home() {
   };
 
   const handleHoverStart = (i: number) => {
-    setColor(cartridges[i].color);
-    handleAnimationComplete(i);
+    if (isPlaying) {
+      setColor(cartridges[i].color);
+      handleAnimationComplete(i);
+    }
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -102,11 +162,17 @@ export default function Home() {
   return (
     <Container
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       initial={{ cursor: 'none' }}
       exit={{ opacity: 0 }}
     >
+      <FullScreen
+        variants={backgroundVariants}
+        initial="initial"
+        animate={isPlaying ? 'animate' : 'initial'}
+      />
+
       <Wrapper>
         <InfiniteSlider color={color} />
         <GameBoy
@@ -116,24 +182,41 @@ export default function Home() {
         />
       </Wrapper>
 
-      <Wrapper>
-        <StartButton
-          href="/works"
-          onMouseEnter={() => setHovered(false)}
-          onMouseLeave={() => setHovered(true)}
+      {isPlaying ? (
+        <Wrapper>
+          <StartButton
+            href="/works"
+            onMouseEnter={() => setIsHovered(false)}
+            onMouseLeave={() => setIsHovered(true)}
+          >
+            START
+            <IconStart />
+          </StartButton>
+        </Wrapper>
+      ) : (
+        <PressStartWrapper
+          variants={pressStartVariants}
+          initial="initial"
+          animate="animate"
         >
-          START
-          <IconStart />
-        </StartButton>
-      </Wrapper>
+          PRESS START
+        </PressStartWrapper>
+      )}
 
       <FullScreen ref={wrapper}>
         <Cursor
           style={{ x, y }}
           variants={cursorVariants}
-          animate={hovered ? (timeoutId ? 'visible' : 'static') : 'hidden'}
+          animate={
+            isHovered
+              ? timeoutId || !isPlaying
+                ? 'visible'
+                : 'static'
+              : 'hidden'
+          }
+          onClick={() => setIsPlaying(true)}
         >
-          <CartridgeBox />
+          {isPlaying ? <CartridgeBox /> : <CursorStart />}
         </Cursor>
 
         {width > 0 &&
@@ -142,7 +225,7 @@ export default function Home() {
               key={`${i}-${counts[i]}`}
               parentWidth={width}
               parentHeight={height}
-              color={cartridge.color}
+              color={isPlaying ? cartridge.color : '#24252c'}
               index={i}
               onAnimationComplete={handleAnimationComplete}
               onHoverStart={handleHoverStart}
