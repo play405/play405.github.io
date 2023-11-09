@@ -10,6 +10,7 @@ const Title = styled.div`
   font-size: 2.25rem; // 36px
   font-weight: bold;
   line-height: 1;
+  color: #dadada;
 `;
 
 const Grid = styled.div`

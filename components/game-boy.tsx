@@ -5,8 +5,16 @@ import { MotionProps, motion } from 'framer-motion';
 import Image from 'next/image';
 
 const Wrapper = styled(motion.div)`
-  width: 512px;
-  height: 512px;
+  width: 256px;
+  height: 364px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ImageWrapper = styled(motion.div)`
+  min-width: 512px;
+  min-height: 512px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,8 +29,10 @@ const Wrapper = styled(motion.div)`
 
 export default function GameBoy(props: MotionProps) {
   return (
-    <Wrapper layoutId="gameboy" {...props}>
-      <Image src="/images/gameboy.png" fill alt="GameBoy" draggable={false} />
+    <Wrapper style={props.style}>
+      <ImageWrapper layoutId="gameboy" {...props}>
+        <Image src="/images/gameboy.png" fill alt="GameBoy" draggable={false} />
+      </ImageWrapper>
     </Wrapper>
   );
 }

@@ -24,11 +24,10 @@ const Trigger = styled(motion.div)<{ grabbed?: boolean }>`
 `;
 
 const Cartridges = styled(motion.div)`
-  width: 100dvw;
-  height: calc(100dvh - 120px);
-  position: fixed;
-  left: 0;
-  top: 120px;
+  height: 100%;
+  flex: 1;
+  z-index: 1;
+  position: relative;
 `;
 
 const CartridgesList = styled(motion.div)`
@@ -80,7 +79,7 @@ const gameBoyVariants: Variants = {
   initial: {
     rotate: -90,
     zIndex: 10,
-    x: 256,
+    x: 128,
   },
   exit: {
     x: 1024,
@@ -107,81 +106,82 @@ export default function Works() {
     }
   };
 
-  return (
-    <Container initial={{ gap: 0 }}>
-      {isList ? (
+  return isList ? (
+    <Container>
+      <Grid>
+        <Buttons>
+          <ViewType isList={isList} setIsList={setIsList} />
+        </Buttons>
+        <CartridgesList
+          variants={listVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          {designers.map(designer => (
+            <CartridgeList key={designer.id} id={designer.id} />
+          ))}
+        </CartridgesList>
+        <GameBoyWrapper>
+          <GameBoy
+            style={{ width: '100%', height: '100%' }}
+            initial={{ minWidth: '100%', minHeight: '100%' }}
+          />
+        </GameBoyWrapper>
+      </Grid>
+    </Container>
+  ) : (
+    <FullScreen exceptnavbar>
+      <Container initial={{ height: '100%', gap: 0 }}>
         <Grid>
           <Buttons>
+            <ShuffleButton
+              onClick={() => setShuffle(!shuffle)}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Shuffle />
+            </ShuffleButton>
             <ViewType isList={isList} setIsList={setIsList} />
           </Buttons>
-          <CartridgesList
-            variants={listVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-          >
-            {designers.map(designer => (
-              <CartridgeList key={designer.id} id={designer.id} />
-            ))}
-          </CartridgesList>
-          <GameBoyWrapper>
-            <GameBoy initial={{ width: '100%', height: '100%' }} />
-          </GameBoyWrapper>
         </Grid>
-      ) : (
-        <>
-          <Grid>
-            <Buttons>
-              <ShuffleButton
-                onClick={() => setShuffle(!shuffle)}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Shuffle />
-              </ShuffleButton>
-              <ViewType isList={isList} setIsList={setIsList} />
-            </Buttons>
-          </Grid>
 
-          <Wrapper>
-            <Trigger
-              onMouseUp={handleMouseUp}
-              onMouseEnter={() => setFixed(true)}
-              onMouseLeave={() => setFixed(false)}
-              grabbed={dragged !== 0}
-            />
+        <Wrapper initial={{ height: '100%' }}>
+          <Trigger
+            onMouseUp={handleMouseUp}
+            onMouseEnter={() => setFixed(true)}
+            onMouseLeave={() => setFixed(false)}
+            grabbed={dragged !== 0}
+          />
 
-            <PutIn
-              initial={{ opacity: 0, x: 256 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-            <GameBoy
-              variants={gameBoyVariants}
-              initial="initial"
-              exit={dragged ? 'grabbed' : 'exit'}
-            />
-          </Wrapper>
+          <Cartridges ref={cartridges}>
+            {designers.map((_, i) => (
+              <Cartridge
+                key={`cartridge-${i + 1} shuffle-${shuffle}`}
+                dragConstraints={cartridges}
+                parentPosition={position}
+                id={i + 1}
+                setDragged={setDragged}
+                fixed={dragged === i + 1 && fixed}
+              />
+            ))}
+          </Cartridges>
 
-          <FullScreen>
-            <Cartridges ref={cartridges}>
-              {designers.map((_, i) => (
-                <Cartridge
-                  key={`cartridge-${i + 1} shuffle-${shuffle}`}
-                  dragConstraints={cartridges}
-                  parentPosition={position}
-                  id={i + 1}
-                  setDragged={setDragged}
-                  fixed={dragged === i + 1 && fixed}
-                />
-              ))}
-            </Cartridges>
-          </FullScreen>
-        </>
-      )}
-    </Container>
+          <PutIn
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+          <GameBoy
+            variants={gameBoyVariants}
+            initial="initial"
+            exit={dragged ? 'grabbed' : 'exit'}
+          />
+        </Wrapper>
+      </Container>
+    </FullScreen>
   );
 }

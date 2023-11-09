@@ -12,7 +12,6 @@ const Wrapper = styled.div`
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 

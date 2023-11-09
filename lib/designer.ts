@@ -18,7 +18,7 @@ export const designers: Designer[] = [
     engName: 'Yim Gun',
     description: '인스타/비핸스 작업계정\nE. gildong1234@gmail.com',
     cartridge: {
-      title: 'MUK02',
+      title: 'MUK2',
       category: 'Product Design',
       description:
         'Lorem ipsum dolor sit amet consectetur. Id aenean scelerisque eros massa risus facilisis mauris tellus. Turpis elementum in sed sed. Justo pharetra viverra mauris neque commodo.',
@@ -74,7 +74,7 @@ export const designers: Designer[] = [
       category: 'UX/UI',
       description:
         'Lorem ipsum dolor sit amet consectetur. Id aenean scelerisque eros massa risus facilisis mauris tellus. Turpis elementum in sed sed. Justo pharetra viverra mauris neque commodo.',
-      color: '#1f468d',
+      color: '#2666f6',
     },
   },
   {

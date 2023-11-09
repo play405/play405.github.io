@@ -88,8 +88,8 @@ export default function Cartridge({
   // Randomize position on mount
   useEffect(() => {
     if (parentWidth && parentHeight) {
-      x.set(Math.random() * (parentWidth * 0.65 - width) + parentWidth * 0.1);
-      y.set(Math.random() * (parentHeight * 1 - height) + parentHeight * 0);
+      x.set(Math.random() * (parentWidth - width));
+      y.set(Math.random() * (parentHeight - height));
       zIndex.set(Math.random() * 100);
       rotate.set(Math.random() * 360, false);
     }

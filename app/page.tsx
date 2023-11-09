@@ -176,7 +176,7 @@ export default function Home() {
       <Wrapper>
         <InfiniteSlider color={color} />
         <GameBoy
-          initial={{ opacity: 0, rotate: 90, x: 256 }}
+          initial={{ opacity: 0, rotate: 90, x: 128 }}
           animate={{ opacity: 1 }}
           exit={{ x: 768 }}
         />
