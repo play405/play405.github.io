@@ -1,6 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export default function usePosition() {
+  const [toggle, setToggle] = useState(false);
+  const calculatePosition = useCallback(() => {
+    setToggle(prev => !prev);
+  }, []);
+
   const [position, setPosition] = useState({
     width: 0,
     height: 0,
@@ -25,6 +30,6 @@ export default function usePosition() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
-  return { position, ref };
+  }, [toggle]);
+  return { position, ref, calculatePosition };
 }

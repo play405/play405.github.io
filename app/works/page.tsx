@@ -11,9 +11,11 @@ import usePosition from '@/lib/usePosition';
 import styled from '@emotion/styled';
 import { Variants, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Shuffle from '@/assets/shuffle.svg';
+import { isListState } from '@/lib/state';
+import { useRecoilState } from 'recoil';
 
 const Trigger = styled(motion.div)<{ grabbed?: boolean }>`
   position: fixed;
@@ -96,9 +98,15 @@ export default function Works() {
   const router = useRouter();
   const [dragged, setDragged] = useState(0);
   const [fixed, setFixed] = useState(false);
-  const [isList, setIsList] = useState(false);
+  const [isList, setIsList] = useRecoilState(isListState);
   const [shuffle, setShuffle] = useState(false);
-  const { position, ref: cartridges } = usePosition();
+  const { position, ref: cartridges, calculatePosition } = usePosition();
+
+  useEffect(() => {
+    if (!isList) {
+      calculatePosition();
+    }
+  }, [calculatePosition, isList]);
 
   const handleMouseUp = () => {
     if (dragged) {

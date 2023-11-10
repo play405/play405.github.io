@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { LayoutRouterContext } from 'next/dist/shared/lib/app-router-context';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, useContext, useRef } from 'react';
+import { RecoilRoot } from 'recoil';
 import Navbar from './navbar';
 
 const Wrapper = styled.div`
@@ -30,15 +31,17 @@ export default function Layout({ children }: PropsWithChildren) {
   const pathname = usePathname();
 
   return (
-    <AnimatePresence mode="wait">
-      <div key={pathname}>
-        <FrozenRouter>
-          <Wrapper>
-            <Navbar />
-            {children}
-          </Wrapper>
-        </FrozenRouter>
-      </div>
-    </AnimatePresence>
+    <RecoilRoot>
+      <AnimatePresence mode="wait">
+        <div key={pathname}>
+          <FrozenRouter>
+            <Wrapper>
+              <Navbar />
+              {children}
+            </Wrapper>
+          </FrozenRouter>
+        </div>
+      </AnimatePresence>
+    </RecoilRoot>
   );
 }
