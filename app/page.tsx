@@ -203,9 +203,12 @@ export default function Home() {
         </PressStartWrapper>
       )}
 
-      <FullScreen ref={wrapper}>
+      <FullScreen
+        ref={wrapper}
+        style={{ mixBlendMode: isPlaying ? 'normal' : 'exclusion' }}
+      >
         <Cursor
-          style={{ x, y }}
+          style={{ x, y, filter: isPlaying ? 'none' : 'grayscale(1)' }}
           variants={cursorVariants}
           animate={
             isHovered
@@ -225,7 +228,7 @@ export default function Home() {
               key={`${i}-${counts[i]}`}
               parentWidth={width}
               parentHeight={height}
-              color={isPlaying ? cartridge.color : '#24252c'}
+              color={isPlaying ? cartridge.color : '#dbdad3'}
               index={i}
               onAnimationComplete={handleAnimationComplete}
               onHoverStart={handleHoverStart}
