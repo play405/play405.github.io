@@ -9,22 +9,30 @@ import Image from 'next/image';
 // This file is required to use MDX in `app` directory.
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    img: ({
-      className,
-      src,
-      alt,
-    }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-      <Image
-        className={className}
-        src={src!}
-        width={0}
-        height={0}
-        sizes="100vw"
-        alt={alt!}
-        style={{ width: '100%', height: 'auto' }}
-        priority
-      />
-    ),
+    img: ({ className, src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) =>
+      src &&
+      (src.split('.').pop() === 'mp4' ? (
+        <video
+          className={className}
+          src={src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{ width: '100%' }}
+        />
+      ) : (
+        <Image
+          className={className}
+          src={src!}
+          width={0}
+          height={0}
+          sizes="100vw"
+          alt={alt!}
+          style={{ width: '100%', height: 'auto' }}
+          priority
+        />
+      )),
 
     ...components,
   };
