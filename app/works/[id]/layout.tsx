@@ -9,7 +9,9 @@ interface Props {
 export function generateMetadata({ params: { id } }: Props) {
   const designer = designers[Number(id) - 1];
 
-  return { title: `${designer.cartridge.title} | Play! 405` };
+  return {
+    title: `${designer.cartridge.title} - ${designer.name} | Play! 405`,
+  };
 }
 
 export default function WorkLayout({
