@@ -100,6 +100,7 @@ export default function Works() {
   const [fixed, setFixed] = useState(false);
   const [isList, setIsList] = useRecoilState(isListState);
   const [shuffle, setShuffle] = useState(false);
+  const [hovered, setHovered] = useState(0);
   const { position, ref: cartridges, calculatePosition } = usePosition();
 
   useEffect(() => {
@@ -127,13 +128,17 @@ export default function Works() {
           exit="hidden"
         >
           {designers.map(designer => (
-            <CartridgeList key={designer.id} id={designer.id} />
+            <CartridgeList
+              key={designer.id}
+              id={designer.id}
+              setHovered={setHovered}
+            />
           ))}
         </CartridgesList>
         <GameBoyWrapper>
           <GameBoy
             style={{ width: '100%', height: '100%' }}
-            initial={{ minWidth: '100%', minHeight: '100%' }}
+            src={hovered ? `/images/thumbnails/${hovered}.png` : undefined}
           />
         </GameBoyWrapper>
       </Grid>

@@ -13,25 +13,71 @@ const Wrapper = styled(motion.div)`
 `;
 
 const ImageWrapper = styled(motion.div)`
-  min-width: 512px;
-  min-height: 512px;
+  flex: none;
+  width: 200%;
   display: flex;
   justify-content: center;
   align-items: center;
   user-select: none;
   pointer-events: none;
   position: relative;
+  aspect-ratio: 1/1;
 
   img {
     object-fit: contain;
   }
 `;
 
-export default function GameBoy(props: MotionProps) {
+const ThumbnailWrapper = styled(motion.div)`
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  aspect-ratio: 364/512;
+`;
+
+const Thumbnail = styled(motion.div)`
+  width: 80%;
+  position: absolute;
+  top: 7.5%;
+  aspect-ratio: 464/326;
+
+  img {
+    object-fit: cover;
+  }
+`;
+
+interface GameBoyProps extends MotionProps {
+  style?: React.CSSProperties;
+  src?: string;
+}
+
+export default function GameBoy({ src, ...props }: GameBoyProps) {
   return (
     <Wrapper style={props.style}>
       <ImageWrapper layoutId="gameboy" {...props}>
-        <Image src="/images/gameboy.png" fill alt="GameBoy" draggable={false} />
+        <Image
+          src="/images/gameboy.png"
+          fill
+          alt="GameBoy"
+          draggable={false}
+          priority
+        />
+        {src && (
+          <ThumbnailWrapper layoutId="gameboy-thumbnail">
+            <Thumbnail>
+              <Image
+                src={src || '/images/empty.png'}
+                fill
+                alt="Thumbnail"
+                draggable={false}
+              />
+            </Thumbnail>
+          </ThumbnailWrapper>
+        )}
       </ImageWrapper>
     </Wrapper>
   );

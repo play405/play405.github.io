@@ -52,6 +52,7 @@ const Category = styled.div`
 
 interface CartridgeListProps {
   id: number;
+  setHovered: (id: number) => void;
 }
 
 const variants: Variants = {
@@ -65,11 +66,15 @@ const variants: Variants = {
   },
 };
 
-export default function CartridgeList({ id }: CartridgeListProps) {
+export default function CartridgeList({ id, setHovered }: CartridgeListProps) {
   const designer = designers[id - 1];
 
   return (
-    <Link href={`/works/${id}`}>
+    <Link
+      href={`/works/${id}`}
+      onMouseEnter={() => setHovered(id)}
+      onMouseLeave={() => setHovered(0)}
+    >
       <Wrapper variants={variants}>
         <Cartridge>
           <Image
