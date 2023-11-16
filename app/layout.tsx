@@ -8,6 +8,11 @@ export const metadata: Metadata = {
     default: 'Play! 405',
   },
   description: '2023 한성대학교 제품서비스디자인트랙 졸업전시',
+  openGraph: {
+    title: 'Play! 405',
+    description: '2023 한성대학교 제품서비스디자인트랙 졸업전시',
+    images: [{ url: '/images/thumbnails/0.png' }],
+  },
 };
 
 export default function RootLayout({
