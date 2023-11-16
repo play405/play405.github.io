@@ -3,26 +3,24 @@
 import Cartridge from '@/components/cartridge';
 import CartridgeList from '@/components/cartridge-list';
 import GameBoy from '@/components/game-boy';
-import PutIn from '@/components/put-in';
+import Put from '@/components/put';
 import ViewType from '@/components/view-type';
 import { designers } from '@/lib/designer';
 import { Container, FullScreen, Grid, Wrapper } from '@/lib/style';
 import usePosition from '@/lib/usePosition';
 import styled from '@emotion/styled';
 import { Variants, motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Shuffle from '@/assets/shuffle.svg';
 import { isListState } from '@/lib/state';
 import { useRecoilState } from 'recoil';
 
-const Trigger = styled(motion.div)<{ grabbed?: boolean }>`
+const Trigger = styled(motion.div)<{ triggered?: boolean }>`
   position: fixed;
   width: 400px;
   height: 256px;
-  z-index: 10;
-  cursor: ${({ grabbed }) => (grabbed ? 'e-resize' : 'default')};
+  cursor: ${({ triggered }) => (triggered ? 'e-resize' : 'default')};
 `;
 
 const Cartridges = styled(motion.div)`
@@ -86,7 +84,7 @@ const gameBoyVariants: Variants = {
   exit: {
     x: 1024,
   },
-  grabbed: {
+  triggered: {
     x: 1024,
     transition: {
       delay: 1,
@@ -95,25 +93,23 @@ const gameBoyVariants: Variants = {
 };
 
 export default function Works() {
-  const router = useRouter();
-  const [dragged, setDragged] = useState(0);
-  const [fixed, setFixed] = useState(false);
+  const [triggered, setTriggered] = useState(0);
   const [isList, setIsList] = useRecoilState(isListState);
   const [shuffle, setShuffle] = useState(false);
   const [hovered, setHovered] = useState(0);
   const { position, ref: cartridges, calculatePosition } = usePosition();
+  const {
+    position: triggerPosition,
+    ref: trigger,
+    calculatePosition: calculateTriggerPosition,
+  } = usePosition();
 
   useEffect(() => {
     if (!isList) {
       calculatePosition();
+      calculateTriggerPosition();
     }
-  }, [calculatePosition, isList]);
-
-  const handleMouseUp = () => {
-    if (dragged) {
-      router.push(`/works/${dragged}`);
-    }
-  };
+  }, [calculatePosition, calculateTriggerPosition, isList]);
 
   return isList ? (
     <Container>
@@ -163,12 +159,7 @@ export default function Works() {
         </Grid>
 
         <Wrapper initial={{ height: '100%' }}>
-          <Trigger
-            onMouseUp={handleMouseUp}
-            onMouseEnter={() => setFixed(true)}
-            onMouseLeave={() => setFixed(false)}
-            grabbed={dragged !== 0}
-          />
+          <Trigger ref={trigger} />
 
           <Cartridges ref={cartridges}>
             {designers.map((_, i) => (
@@ -176,14 +167,15 @@ export default function Works() {
                 key={`cartridge-${i + 1} shuffle-${shuffle}`}
                 dragConstraints={cartridges}
                 parentPosition={position}
+                triggerPosition={triggerPosition}
                 id={i + 1}
-                setDragged={setDragged}
-                fixed={dragged === i + 1 && fixed}
+                triggered={triggered}
+                setTriggered={setTriggered}
               />
             ))}
           </Cartridges>
 
-          <PutIn
+          <Put
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -191,7 +183,7 @@ export default function Works() {
           <GameBoy
             variants={gameBoyVariants}
             initial="initial"
-            exit={dragged ? 'grabbed' : 'exit'}
+            exit={triggered ? 'triggered' : 'exit'}
           />
         </Wrapper>
       </Container>

@@ -31,7 +31,7 @@ const Text = styled.div`
   top: -44px;
 `;
 
-export default function PutIn(props: MotionProps) {
+export default function Put(props: MotionProps) {
   return (
     <Wrapper {...props}>
       <Inner
@@ -39,7 +39,7 @@ export default function PutIn(props: MotionProps) {
         animate={{ opacity: 0, scale: 1 }}
         transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 0.5 }}
       />
-      <Text>Put in!</Text>
+      <Text>Put!</Text>
     </Wrapper>
   );
 }

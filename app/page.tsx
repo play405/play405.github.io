@@ -1,5 +1,8 @@
 'use client';
 
+import CartridgeBox from '@/assets/cartridge-box.svg';
+import CursorStart from '@/assets/cursor-start.svg';
+import IconStart from '@/assets/icon-start.svg';
 import GameBoy from '@/components/game-boy';
 import InfiniteSlider from '@/components/infinite-slider';
 import MiniCartridge from '@/components/mini-cartridge';
@@ -10,10 +13,6 @@ import styled from '@emotion/styled';
 import { Variants, motion, useMotionValue } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
-import CartridgeBox from '@/assets/cartridge-box.svg';
-import CursorStart from '@/assets/cursor-start.svg';
-import IconStart from '@/assets/icon-start.svg';
 
 const Cursor = styled(motion.div)`
   position: absolute;
@@ -161,9 +160,10 @@ export default function Home() {
 
   return (
     <Container
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerMove={handleMouseMove}
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
+      onClick={() => setIsPlaying(true)}
       initial={{ cursor: 'none' }}
       exit={{ opacity: 0 }}
     >
@@ -217,7 +217,6 @@ export default function Home() {
                 : 'static'
               : 'hidden'
           }
-          onClick={() => setIsPlaying(true)}
         >
           {isPlaying ? <CartridgeBox /> : <CursorStart />}
         </Cursor>

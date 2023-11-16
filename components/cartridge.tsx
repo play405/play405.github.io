@@ -10,6 +10,7 @@ import {
   useSpring,
 } from 'framer-motion';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const width = 220;
@@ -58,9 +59,10 @@ const variants: Variants = {
 
 interface CartridgeProps extends MotionProps {
   parentPosition: { width: number; height: number; top: number; left: number };
+  triggerPosition: { width: number; height: number; top: number; left: number };
   id: number;
-  setDragged: (id: number) => void;
-  fixed?: boolean;
+  triggered: number;
+  setTriggered: (id: number) => void;
 }
 
 export default function Cartridge({
@@ -71,10 +73,12 @@ export default function Cartridge({
     top: parentTop,
     left: parentLeft,
   },
+  triggerPosition,
   id,
-  setDragged,
-  fixed,
+  triggered,
+  setTriggered,
 }: CartridgeProps) {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
 
   const originX = useMotionValue(0.5);
@@ -125,15 +129,19 @@ export default function Cartridge({
     originY.set((pointY - y.get()) / height);
   };
 
-  const handleDrag = (
-    { movementX, movementY }: MouseEvent,
-    { point }: TapInfo
-  ) => {
-    // If fixed, rotate by -90 degrees
-    if (fixed) {
+  const handleDrag = ({ movementX, movementY, x, y }: MouseEvent) => {
+    // If triggered, rotate by -90 degrees
+    if (
+      x >= triggerPosition.left &&
+      x <= triggerPosition.left + triggerPosition.width &&
+      y >= triggerPosition.top &&
+      y <= triggerPosition.top + triggerPosition.height
+    ) {
+      setTriggered(id);
       const laps = Math.round((rotate.get() + 90) / 360);
       rotate.set(-90 + 360 * laps);
     } else {
+      setTriggered(0);
       const vectorA = {
         x: (0.5 - originX.get()) * width,
         y: (0.5 - originY.get()) * height,
@@ -174,6 +182,12 @@ export default function Cartridge({
     }
   };
 
+  const handleDragEnd = () => {
+    if (triggered === id) {
+      router.push(`/works/${id}`);
+    }
+  };
+
   return (
     <Wrapper
       variants={variants}
@@ -183,13 +197,12 @@ export default function Cartridge({
       dragConstraints={dragConstraints}
       dragElastic={1}
       onDrag={handleDrag}
-      onDragStart={() => setDragged(id)}
-      onDragEnd={() => fixed || setDragged(0)}
+      onDragEnd={handleDragEnd}
       style={{ originX, originY, x, y, zIndex, rotate }}
       onTapStart={handleTapStart}
       initial="hidden"
       animate={loaded ? 'visible' : 'hidden'}
-      exit={fixed ? 'insert' : 'hidden'}
+      exit={triggered === id ? 'insert' : 'hidden'}
     >
       <Image
         src={`/images/cartridges/${id}.png`}
