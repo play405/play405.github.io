@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     default: 'Play! 405',
   },
   description: '2023 한성대학교 제품서비스디자인트랙 졸업전시',
+  metadataBase: new URL('https://play405.github.io'),
   openGraph: {
     title: 'Play! 405',
     description: '2023 한성대학교 제품서비스디자인트랙 졸업전시',
