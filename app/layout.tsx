@@ -46,6 +46,14 @@ export default function RootLayout({
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
+        <meta
+          name="google-site-verification"
+          content="AMNl4NqEa5kN4p15vXRRBpNq3eJ9_0uio9zOX5NvOak"
+        />
+        <meta
+          name="naver-site-verification"
+          content="ade462973e0addd5eae3f820ac0ac0428a3223be"
+        />
       </head>
       <body>
         <Layout>{children}</Layout>
