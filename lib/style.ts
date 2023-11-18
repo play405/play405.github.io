@@ -16,6 +16,14 @@ export const Container = styled(motion.div)`
   @media (max-width: 1500px) {
     width: 100%;
   }
+
+  @media (max-width: 920px) {
+    gap: 240px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 24px;
+  }
 `;
 
 export const FullScreen = styled(motion.div)<{ exceptnavbar?: boolean }>`
@@ -38,6 +46,12 @@ export const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 20px;
+
+  @media (max-width: 920px) {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
 `;
 
 export const Wrapper = styled(motion.div)`
@@ -49,5 +63,9 @@ export const Wrapper = styled(motion.div)`
 
   @media (min-width: 1920px) {
     width: calc(100dvw - 512px);
+  }
+
+  @media (max-width: 920px) {
+    justify-content: center;
   }
 `;

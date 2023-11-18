@@ -1,6 +1,7 @@
 'use client';
 
 import { designers } from '@/lib/designer';
+import useIsMobile from '@/lib/useIsMobile';
 import styled from '@emotion/styled';
 import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
@@ -9,6 +10,10 @@ import Link from 'next/link';
 const Wrapper = styled(motion.div)`
   display: flex;
   gap: 40px;
+
+  @media (max-width: 768px) {
+    gap: 24px;
+  }
 `;
 
 const Cartridge = styled(motion.div)`
@@ -18,6 +23,11 @@ const Cartridge = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    width: 131px;
+    height: 149px;
+  }
 `;
 
 const Text = styled.div`
@@ -35,6 +45,10 @@ const Name = styled.div`
   flex-direction: column;
   color: #ffffff;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const Korean = styled.div`
@@ -67,6 +81,7 @@ const variants: Variants = {
 };
 
 export default function CartridgeList({ id, setHovered }: CartridgeListProps) {
+  const isMobile = useIsMobile();
   const designer = designers[id - 1];
 
   return (
@@ -79,10 +94,11 @@ export default function CartridgeList({ id, setHovered }: CartridgeListProps) {
         <Cartridge>
           <Image
             src={`/images/cartridges/${id}.png`}
-            width={225}
-            height={225}
+            width={isMobile ? 160 : 225}
+            height={isMobile ? 160 : 225}
             alt="Cartridge"
             draggable={false}
+            priority
           />
         </Cartridge>
         <Text>

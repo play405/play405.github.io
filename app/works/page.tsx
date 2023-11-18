@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 
 import Shuffle from '@/assets/shuffle.svg';
 import { isListState } from '@/lib/state';
+import useIsTablet from '@/lib/useIsTablet';
+import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 
 const Trigger = styled(motion.div)<{ triggered?: boolean }>`
@@ -45,6 +47,10 @@ const GameBoyWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 920px) {
+    display: none;
+  }
 `;
 
 const Buttons = styled(motion.div)`
@@ -93,6 +99,7 @@ const gameBoyVariants: Variants = {
 };
 
 export default function Works() {
+  const router = useRouter();
   const [triggered, setTriggered] = useState(0);
   const [isList, setIsList] = useRecoilState(isListState);
   const [shuffle, setShuffle] = useState(false);
@@ -103,15 +110,22 @@ export default function Works() {
     ref: trigger,
     calculatePosition: calculateTriggerPosition,
   } = usePosition();
+  const isTablet = useIsTablet();
 
   useEffect(() => {
-    if (!isList) {
+    if (triggered) {
+      router.push(`/works/${triggered}`);
+    }
+  }, [triggered, router]);
+
+  useEffect(() => {
+    if (!isTablet && !isList) {
       calculatePosition();
       calculateTriggerPosition();
     }
-  }, [calculatePosition, calculateTriggerPosition, isList]);
+  }, [calculatePosition, calculateTriggerPosition, isList, isTablet]);
 
-  return isList ? (
+  return isTablet || isList ? (
     <Container>
       <Grid>
         <Buttons>
@@ -165,11 +179,10 @@ export default function Works() {
             {designers.map((_, i) => (
               <Cartridge
                 key={`cartridge-${i + 1} shuffle-${shuffle}`}
-                dragConstraints={cartridges}
                 parentPosition={position}
                 triggerPosition={triggerPosition}
                 id={i + 1}
-                triggered={triggered}
+                triggered={triggered === i + 1}
                 setTriggered={setTriggered}
               />
             ))}

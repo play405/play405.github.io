@@ -10,6 +10,10 @@ const Wrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 920px) {
+    display: none;
+  }
 `;
 
 const ImageWrapper = styled(motion.div)`
@@ -69,12 +73,7 @@ export default function GameBoy({ src, ...props }: GameBoyProps) {
         {src && (
           <ThumbnailWrapper layoutId="gameboy-thumbnail">
             <Thumbnail>
-              <Image
-                src={src || '/images/empty.png'}
-                fill
-                alt="Thumbnail"
-                draggable={false}
-              />
+              <Image src={src} fill alt="Thumbnail" draggable={false} />
             </Thumbnail>
           </ThumbnailWrapper>
         )}

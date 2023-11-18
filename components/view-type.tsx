@@ -1,8 +1,7 @@
-import styled from '@emotion/styled';
-import { MotionProps, motion } from 'framer-motion';
-
 import IconViewtype1 from '@/assets/icon-viewtype-1.svg';
 import IconViewtype2 from '@/assets/icon-viewtype-2.svg';
+import styled from '@emotion/styled';
+import { MotionProps, motion } from 'framer-motion';
 
 const Wrapper = styled(motion.div)`
   display: flex;
@@ -18,6 +17,10 @@ const Wrapper = styled(motion.div)`
   background-color: #141414;
   user-select: none;
   color: #ffffff;
+
+  @media (max-width: 920px) {
+    display: none;
+  }
 `;
 
 const Buttons = styled.div`

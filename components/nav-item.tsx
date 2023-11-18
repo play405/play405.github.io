@@ -15,6 +15,10 @@ const Wrapper = styled(Link)<{ selected: boolean }>`
     color: #ffffff;
     box-shadow: inset 0px 0px 0px 2px #ffffff;
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 interface NavItemProps {

@@ -1,9 +1,9 @@
 'use client';
 
+import SliderLogo from '@/assets/slider-logo.svg';
+import useIsMobile from '@/lib/useIsMobile';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-
-import SliderLogo from '@/assets/slider-logo.svg';
 
 const Wrapper = styled(motion.div)`
   width: 100vw;
@@ -15,8 +15,8 @@ const Wrapper = styled(motion.div)`
   gap: 24px;
   color: #161616;
 
-  * {
-    flex: none;
+  @media (max-width: 768px) {
+    gap: 12px;
   }
 `;
 
@@ -25,6 +25,8 @@ interface InfiniteSliderProps {
 }
 
 export default function InfiniteSlider({ color }: InfiniteSliderProps) {
+  const isMobile = useIsMobile();
+
   return (
     <Wrapper
       initial={{ opacity: 0 }}
@@ -35,14 +37,14 @@ export default function InfiniteSlider({ color }: InfiniteSliderProps) {
       {[...Array(10)].map((_, i) => (
         <motion.div
           key={i}
-          animate={{ x: -594 }}
+          animate={{ x: isMobile ? -297 : -594 }}
           transition={{
             ease: 'linear',
             duration: 5.94,
             repeat: Infinity,
           }}
         >
-          <SliderLogo />
+          <SliderLogo height={isMobile ? 77 : 154} />
         </motion.div>
       ))}
     </Wrapper>

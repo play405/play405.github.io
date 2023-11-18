@@ -4,6 +4,7 @@ import GameBoy from '@/components/game-boy';
 import InfiniteSlider from '@/components/infinite-slider';
 import { designers } from '@/lib/designer';
 import { Container, FullScreen, Grid, Wrapper } from '@/lib/style';
+import useIsMobile from '@/lib/useIsMobile';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -34,6 +35,10 @@ const Titles = styled.div`
 const Title = styled.div`
   font-size: 2.25rem; // 36px
   font-weight: bold;
+
+  @media (max-width: 920px) {
+    font-size: 2rem;
+  }
 `;
 
 const Name = styled.div`
@@ -64,6 +69,10 @@ const Right = styled.div`
   flex-direction: column;
   grid-column: 4/13;
   gap: 85px;
+
+  @media (max-width: 920px) {
+    gap: 48px;
+  }
 `;
 
 const PostWrapper = styled.div`
@@ -72,6 +81,17 @@ const PostWrapper = styled.div`
 
   img {
     width: 100%;
+  }
+
+  @media (max-width: 920px) {
+    width: 100vw;
+    margin: -40px;
+    padding: 40px 0;
+  }
+
+  @media (max-width: 768px) {
+    margin: -24px;
+    padding: 24px 0;
   }
 `;
 
@@ -90,6 +110,10 @@ const DesignerInfo = styled.div`
   img {
     object-fit: cover;
   }
+
+  @media (max-width: 768px) {
+    gap: 20px;
+  }
 `;
 
 const DesignerText = styled.div`
@@ -98,12 +122,20 @@ const DesignerText = styled.div`
   justify-content: space-between;
   padding: 20px 0;
   color: #d0d0d0;
+
+  @media (max-width: 768px) {
+    padding: 12px 0;
+  }
 `;
 
 const DesignerName = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
+
+  @media (max-width: 768px) {
+    gap: 12px;
+  }
 `;
 
 const DesignerDescription = styled.div`
@@ -117,6 +149,7 @@ interface WorkProps {
 }
 
 export default function WorkLayout({ id, children }: WorkProps) {
+  const isMobile = useIsMobile();
   const postWrapperRef = useRef<HTMLDivElement>(null);
   const images = postWrapperRef.current?.querySelectorAll('img').length;
   const designer = designers[id];
@@ -175,8 +208,8 @@ export default function WorkLayout({ id, children }: WorkProps) {
             <DesignerInfo>
               <Image
                 src={`/images/profiles/${designer.id}.jpeg`}
-                width={220}
-                height={280}
+                width={isMobile ? 126 : 220}
+                height={isMobile ? 160 : 280}
                 alt={designer.name}
               />
               <DesignerText>

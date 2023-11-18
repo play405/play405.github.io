@@ -45,11 +45,15 @@ const StartButton = styled(Link)`
 
 const PressStartWrapper = styled(Wrapper)`
   justify-content: center;
-  font-size: 32px;
-  padding: 16px;
+  font-size: 2rem;
+  height: 64px;
   line-height: 1;
   font-weight: bold;
   color: #24252c;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const pressStartVariants: Variants = {
@@ -163,6 +167,7 @@ export default function Home() {
       onPointerMove={handleMouseMove}
       onPointerEnter={() => setIsHovered(true)}
       onPointerLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(false)}
       onClick={() => setIsPlaying(true)}
       initial={{ cursor: 'none' }}
       exit={{ opacity: 0 }}

@@ -21,6 +21,11 @@ const Cartridge = styled(motion.div)`
   height: 32px;
   background-color: ${({ color }) => color};
   border-radius: 4px;
+
+  @media (max-width: 768px) {
+    width: 19px;
+    height: 25px;
+  }
 `;
 
 interface MiniCartridgeProps {
