@@ -167,7 +167,7 @@ export default function WorkLayout({ id, children }: WorkProps) {
     <Container>
       <FullScreen
         exceptnavbar
-        initial={{ backgroundColor: '#161616' }}
+        initial={{ backgroundColor: '#161616', pointerEvents: 'none' }}
         animate={{ opacity: loading ? 1 : 0 }}
         transition={{ delay: 1 }}
       >
