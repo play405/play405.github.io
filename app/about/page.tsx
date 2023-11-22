@@ -8,6 +8,7 @@ import useIsMobile from '@/lib/useIsMobile';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -105,11 +106,26 @@ const RestartButton = styled.div`
 
   font-size: 1.75rem; // 28px
   line-height: 1;
+  color: #ffffff;
 `;
 
 export default function About() {
   const isMobile = useIsMobile();
   const router = useRouter();
+
+  useEffect(() => {
+    const audio = new Audio(
+      'https://vgmsite.com/soundtracks/pokemon-gold-gb/gbnlbzpr/05_New%20Bark%20Town%27s%20Theme.mp3'
+    );
+    audio.volume = 0.2;
+    audio.loop = true;
+
+    audio.play();
+
+    return () => {
+      audio.pause();
+    };
+  }, []);
 
   return (
     <Container
