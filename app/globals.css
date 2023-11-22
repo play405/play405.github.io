@@ -37,6 +37,7 @@ a {
 
 img,
 svg,
-video {
+video,
+iframe {
   display: block;
 }
