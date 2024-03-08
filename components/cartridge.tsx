@@ -215,7 +215,7 @@ export default function Cartridge({
         height={270}
         alt="cartridge"
         draggable={false}
-        onLoadingComplete={() => setLoaded(true)}
+        onLoad={() => setLoaded(true)}
       />
     </Wrapper>
   );
