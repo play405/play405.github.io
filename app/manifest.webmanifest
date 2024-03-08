@@ -1,0 +1,7 @@
+{
+  "name": "Play! 405",
+  "short_name": "Play! 405",
+  "description": "2023 한성대학교 제품서비스디자인트랙 졸업전시",
+  "start_url": "/",
+  "display": "standalone"
+}
