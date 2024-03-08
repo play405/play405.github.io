@@ -3,16 +3,10 @@
  */
 const config = {
   convertFormat: [
-    ['png', 'avif'],
-    ['jpg', 'avif'],
-    ['jpeg', 'avif'],
+    ['png', 'webp'],
+    ['jpg', 'webp'],
+    ['jpeg', 'webp'],
   ],
-  generateFormats: ['avif'],
-  sharpOptions: {
-    avif: {
-      effort: 0,
-    },
-  },
 };
 
 module.exports = config;

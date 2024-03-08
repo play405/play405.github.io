@@ -34,4 +34,4 @@ const nextConfig = {
   output: 'export',
 };
 
-module.exports = withMDX(withExportImages(nextConfig));
+module.exports = withExportImages(withMDX(nextConfig));
