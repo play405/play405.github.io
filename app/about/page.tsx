@@ -115,7 +115,7 @@ export default function About() {
 
   useEffect(() => {
     const audio = new Audio(
-      'https://vgmsite.com/soundtracks/pokemon-gold-gb/gbnlbzpr/05_New%20Bark%20Town%27s%20Theme.mp3'
+      'https://dl.vgmdownloads.com/soundtracks/pokemon-gold-silver-crystal/hcuvwyteng/10.%20New%20Bark%20Town.mp3'
     );
     audio.volume = 0.2;
     audio.loop = true;

@@ -101,7 +101,7 @@ export default function Home() {
 
   useEffect(() => {
     const audio = new Audio(
-      'https://vgmsite.com/soundtracks/pokemon-gold-gb/pjpcaior/48_Bicycle.mp3'
+      'https://dl.vgmdownloads.com/soundtracks/pokemon-gold-silver-crystal/omazxkjlop/69.%20Cycling.mp3'
     );
     audio.volume = 0.2;
     audio.loop = true;
