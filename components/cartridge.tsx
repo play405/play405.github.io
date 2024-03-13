@@ -163,17 +163,16 @@ export default function Cartridge({
 
       let angle =
         (Math.atan2(vectorC.y, vectorC.x) - Math.atan2(vectorB.y, vectorB.x)) *
-        (180 / Math.PI) *
-        force;
+        (180 / Math.PI);
 
       // Fix delta angle to be between -180 and 180
-      if (angle > 180 * force) {
-        angle -= 360 * force;
-      } else if (angle < -180 * force) {
-        angle += 360 * force;
+      if (angle > 180) {
+        angle -= 360;
+      } else if (angle < -180) {
+        angle += 360;
       }
 
-      rotate.set(rotate.get() + angle);
+      rotate.set(rotate.get() + angle * force);
     }
   };
 
